@@ -13,7 +13,8 @@
         android:paddingTop="20dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingBottom="20dp">
+        android:paddingBottom="50dp"
+        android:layout_marginBottom="20dp">
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
@@ -40,12 +41,13 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:src="@drawable/cafe"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="카페"/>
+                android:text="카페"
+                android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -54,12 +56,13 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:src="@drawable/cafe"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="카페"/>
+                android:text="카페"
+                android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -68,27 +71,15 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:src="@drawable/cafe"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="카페"/>
+                android:text="카페"
+                android:textAlignment="center"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/cafe"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="카페"/>
-        </LinearLayout>
+
 
     </LinearLayout>
     <LinearLayout
@@ -103,12 +94,13 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:src="@drawable/cafe"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="카페"/>
+                android:text="카페"
+                android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -117,12 +109,13 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:src="@drawable/cafe"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="카페"/>
+                android:text="카페"
+                android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -131,12 +124,35 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:src="@drawable/cafe"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="카페"/>
+                android:text="카페"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/menu3"
+        android:layout_below="@id/menu2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:src="@drawable/cafe"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="카페"
+                android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
@@ -145,12 +161,28 @@
             android:orientation="vertical">
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:src="@drawable/cafe"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="카페"/>
+                android:text="카페"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:src="@drawable/cafe"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="카페"
+                android:textAlignment="center"/>
         </LinearLayout>
 
     </LinearLayout>
