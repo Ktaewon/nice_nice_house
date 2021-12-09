@@ -82,4 +82,8 @@ lint/intermediates/
 lint/generated/
 lint/outputs/
 lint/tmp/
+<<<<<<< HEAD
 # lint/reports/
+=======
+# lint/reports/
+>>>>>>> fe0c0903f24e823709b959d6af2242a3d69222a2
