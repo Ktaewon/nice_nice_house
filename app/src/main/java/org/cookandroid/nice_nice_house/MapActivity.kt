@@ -23,7 +23,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         supportActionBar!!.setDisplayShowHomeEnabled(false)
         //supportActionBar!!.setIcon(R.drawable.googlemap_icon)
         title = "Google 지도 활용"
-g
+
         mapFrag = fragmentManager.findFragmentById(R.id.map) as MapFragment
         mapFrag.getMapAsync(this)
     }
