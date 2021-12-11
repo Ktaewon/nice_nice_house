@@ -1,7 +1,9 @@
 package org.cookandroid.nice_nice_house
 
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.security.identity.ResultData
@@ -26,8 +28,12 @@ class MainActivity : AppCompatActivity() {
     var sampleData:ArrayList<StoreData>?=null
     var addrList=ArrayList<LatLng>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         var btnMapOpen = findViewById<Button>(R.id.btnMapOpen)
         btnMapOpen.setOnClickListener {
@@ -43,17 +49,12 @@ class MainActivity : AppCompatActivity() {
         val Result= api.getItem(Author,ServiceKey,1,400)
         Result.enqueue(object : Callback<ResponseData> {
             override fun onResponse(call: Call<ResponseData>, response: Response<ResponseData>) {
-                Log.d("success","실행2");
                 if (response.isSuccessful) {
 
-                    Log.d("success","실행3");
                     var result: ResponseData? = response.body()
                     Log.i("test", response.body().toString())
                     sampleData=result!!.data;
-
                     printData(sampleData!!);
-
-
 
                 } else {
                     Log.d("success","실행4");
@@ -72,15 +73,12 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-
     }
 
     fun printData( data:ArrayList<StoreData>)
     {
         Log.d("print",data.size.toString())
         var mapApi=MapActivity()
-
-
         for (sd in data){
             Log.d("프로젝트", sd.storeName + sd.Addr)
             var context = this
@@ -88,6 +86,10 @@ class MainActivity : AppCompatActivity() {
             val sdLocation = mapApi.addrToPoint(context, sd.Addr)
             val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
             addrList.add(latLng)
+
+
+
+
 
         }
 

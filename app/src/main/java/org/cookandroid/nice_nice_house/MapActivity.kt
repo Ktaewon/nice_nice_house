@@ -40,7 +40,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         storedData = intent.getSerializableExtra("storedData") as ArrayList<StoreData>
         addrList = intent.getSerializableExtra("addrList") as ArrayList<LatLng>
-        Log.d("프로젝트", storedData.size.toString())
+    //    Log.d("프로젝트", storedData.size.toString())
 
         mapFrag = fragmentManager.findFragmentById(R.id.map) as MapFragment
         mapFrag.getMapAsync(this)
@@ -62,7 +62,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // for loop를 통한 n개의 마커 생성
         for (i in 0..storedData.size){
-            Log.d("프로젝트", storedData.get(i).storeName + storedData.get(i).Addr)
+    //        Log.d("프로젝트", storedData.get(i).storeName + storedData.get(i).Addr)
             var context = this
             val markerOptions = MarkerOptions()
 
