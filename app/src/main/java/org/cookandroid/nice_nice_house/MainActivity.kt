@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         var btnMapOpen = findViewById<Button>(R.id.btnMapOpen)
         btnMapOpen.setOnClickListener {
             var intent = Intent(this, MapActivity::class.java)
+            intent.putExtra("storedData", sampleData)
             startActivity(intent)
         }
 

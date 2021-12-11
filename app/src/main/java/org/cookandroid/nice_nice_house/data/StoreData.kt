@@ -1,8 +1,9 @@
 package org.cookandroid.nice_nice_house.data
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-data class StoreData(
+data class StoreData (
 
     @SerializedName("연번")
     val id:String,
@@ -28,4 +29,4 @@ data class StoreData(
     val extra:String
 
 
-    )
+    ):Serializable
