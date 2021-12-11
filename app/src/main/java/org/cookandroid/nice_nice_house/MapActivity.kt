@@ -44,6 +44,7 @@ import kotlin.concurrent.thread
 import android.widget.TextView as TextView1
 
 
+
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var gMap: GoogleMap
     lateinit var mapFrag: MapFragment
