@@ -8,11 +8,13 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+
             android:id="@+id/titleBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/img"
-            android:layout_weight="2"
+
+            android:layout_weight="1.8"
             android:paddingTop="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -23,10 +25,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="착하디 착한 집"
+
                 android:textColor="@color/main"
                 android:fontFamily="@font/font"
                 android:textAllCaps="true"
-                android:textSize="30dp"
+                android:textSize="40dp"
                 android:layout_marginBottom="10dp"/>
         <Button
                 android:id="@+id/btnMapOpen"
@@ -41,7 +44,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent" android:layout_weight="1"
-    android:padding="10dp">
+    android:padding="30dp">
         <LinearLayout
                 android:id="@+id/menu1"
                 android:layout_width="match_parent"
@@ -57,7 +60,8 @@
                         android:id="@+id/e_food"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:src="@drawable/cafe"/>
+                        android:padding="3pt"
+                        android:src="@drawable/pizza"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -73,7 +77,8 @@
                         android:id="@+id/c_food"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:src="@drawable/cafe"/>
+                        android:padding="2pt"
+                        android:src="@drawable/chinese"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -86,14 +91,15 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
                 <ImageView
-                        android:id="@+id/k_food"
+                        android:id="@+id/j_food"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:src="@drawable/cafe"/>
+                        android:src="@drawable/japan"
+                android:padding="3pt"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="한ㅡ"
+                        android:text="일식"
                         android:textAlignment="center"/>
             </LinearLayout>
 
@@ -114,7 +120,8 @@
                         android:id="@+id/kn_food"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:src="@drawable/cafe"/>
+                        android:src="@drawable/korea"
+                android:padding="2pt"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -127,15 +134,15 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
                 <ImageView
-                        android:id="@+id/j_food"
+                        android:id="@+id/k_food"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
                         android:padding="4pt"
-                        android:src="@drawable/sushi"/>
+                        android:src="@drawable/bibimbab"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="일식"
+                        android:text="한식전체 "
                         android:textStyle="bold"
 
                         android:textAlignment="center"/>
@@ -149,7 +156,8 @@
                         android:id="@+id/ks_food"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:src="@drawable/cafe"/>
+                        android:padding="2pt"
+                        android:src="@drawable/fish"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -168,10 +176,28 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
                 <ImageView
+                        android:id="@+id/km_food"
+                        android:layout_width="wrap_content"
+                        android:layout_height="80dp"
+                        android:src="@drawable/kmeal"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="한식_육류"
+                        android:textAlignment="center"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                <ImageView
                         android:id="@+id/kb_food"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:src="@drawable/cafe"/>
+                        android:src="@drawable/koreab"
+                        android:padding="2pt"
+                />
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -186,27 +212,12 @@
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:src="@drawable/cafe"/>
+                        android:padding="2pt"
+                        android:src="@drawable/all"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="카페"
-                        android:textAlignment="center"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                <ImageView
-                        android:id="@+id/km_food"
-                        android:layout_width="wrap_content"
-                        android:layout_height="80dp"
-                        android:src="@drawable/cafe"/>
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="한식_육류"
+                        android:text=""
                         android:textAlignment="center"/>
             </LinearLayout>
 
