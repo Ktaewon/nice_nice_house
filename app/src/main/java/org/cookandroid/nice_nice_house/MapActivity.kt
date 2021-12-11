@@ -68,7 +68,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val places_api_key = "AIzaSyAVEjRyS5VmNZmKS6iyXMrlddjZGnnFGF8"
+        val places_api_key = "API_KEY"
         setContentView(R.layout.map_main)
         supportActionBar!!.setDisplayShowHomeEnabled(false)
         if (savedInstanceState != null) {
