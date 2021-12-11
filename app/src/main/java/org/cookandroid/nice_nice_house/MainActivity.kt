@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     val Author:String ="s6uCol2G%2F9kDZDHSm1qm7B7tEzlxymTvk3HNYpdJ1TKK4eUmcW%2F5Lu2mSsBOh%2FOP%2F1ZLytfgLjGK60CnlOJL8w%3D%3D"
     val ServiceKey="s6uCol2G/9kDZDHSm1qm7B7tEzlxymTvk3HNYpdJ1TKK4eUmcW/5Lu2mSsBOh/OP/1ZLytfgLjGK60CnlOJL8w=="
+    var sampleData:ArrayList<StoreData>?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d("test", response.code().toString())
                     Log.d("test", result!!.data.get(1).id);
                     Log.d("test", result.data.get(1).toString());
+                    sampleData=result!!.data;
+                    printData(sampleData!!);
 
 
                 } else {
@@ -66,5 +69,17 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    fun printData( data:ArrayList<StoreData>)
+    {
+        var count=0;
+        for (i in data)
+        {
+            Log.d("print",data.toString())
+            count+=1
+            if (count==10)
+                break;
+        }
     }
 }

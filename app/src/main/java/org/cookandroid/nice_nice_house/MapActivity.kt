@@ -1,6 +1,7 @@
 package org.cookandroid.nice_nice_house
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mapFrag = fragmentManager.findFragmentById(R.id.map) as MapFragment
         mapFrag.getMapAsync(this)
+
+        var main=MainActivity()
+        Log.d("map",main.sampleData.toString())
     }
 
     override fun onMapReady(p0: GoogleMap) {
