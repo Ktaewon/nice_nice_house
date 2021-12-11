@@ -56,7 +56,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         var mMap = gMap
 
+        for (i in 0..storedData.size)
+
         // for loop를 통한 n개의 마커 생성
+        var count = 0
         for (sd in storedData){
             Log.d("프로젝트", sd.storeName + sd.Addr)
             var context = this
@@ -69,6 +72,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 .position(latLng)
                 .title(sd.storeName)
             mMap.addMarker(markerOptions)
+            count += 1
+            if(count == 10){
+                break
+            }
         }
 
         // for loop를 통한 n개의 마커 생성
