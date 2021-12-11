@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -20,6 +21,8 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginRight
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,10 +30,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.*
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import org.cookandroid.nice_nice_house.data.StoreData
 import java.io.IOException
 import kotlin.concurrent.thread
@@ -71,13 +78,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         val places_api_key = "AIzaSyAVEjRyS5VmNZmKS6iyXMrlddjZGnnFGF8"
         setContentView(R.layout.map_main)
-        supportActionBar!!.setDisplayShowHomeEnabled(false)
+        supportActionBar!!.hide()
+        //supportActionBar!!.setDisplayShowHomeEnabled(false)
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION)
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION)
         }
         //supportActionBar!!.setIcon(R.drawable.googlemap_icon)
-        title = "Google 지도 활용"
+        //title = "Google 지도 활용"
         Places.initialize(applicationContext, places_api_key)
         placesClient = Places.createClient(this)
 
@@ -88,6 +96,29 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //addrList = intent.getSerializableExtra("addrList") as ArrayList<LatLng>
 //        Log.d("프로젝트", storedData.size.toString())
+
+        val autocompleteFragment =
+            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+                    as AutocompleteSupportFragment
+        autocompleteFragment.requireView().setBackgroundResource(R.drawable.searchbar)
+        autocompleteFragment.requireView()
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                map!!.moveCamera(CameraUpdateFactory.newLatLng(place.latLng!!))
+                Log.i(TAG, "Place: ${place.name}, ${place.id}")
+            }
+
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: $status")
+            }
+        })
 
         mapFrag = fragmentManager.findFragmentById(R.id.map) as MapFragment
         mapFrag.getMapAsync(this)
@@ -231,38 +262,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         return super.openOrCreateDatabase(name, mode, factory)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        super.onCreateOptionsMenu(menu)
-        menu.add(0, 1, 0, "위성 지도")
-        menu.add(0, 2, 0, "일반 지도")
-        menu.add(0, 3, 0, "월드컵경기장 바로가기")
-        return true
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            1 -> {
-                gMap.mapType = GoogleMap.MAP_TYPE_HYBRID
-                return true
-            }
-            2 -> {
-                gMap.mapType = GoogleMap.MAP_TYPE_NORMAL
-                return true
-            }
-            3 -> {
-                gMap.moveCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(
-                    37.568256, 126.897240), 15f))
-                return true
-            }
-        }
+        super.onOptionsItemSelected(item)
         return false
     }
     fun addrToPoint(context: Context?, address: String): Location? {
         val location = Location("")
         val geocoder = Geocoder(context)
         var addresses: List<Address>? = null
+
+
+
         try {
             addresses = geocoder.getFromLocationName(address, 1)
         } catch (e: IOException) {

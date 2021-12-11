@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        supportActionBar!!.hide()
         var btnMapOpen = findViewById<Button>(R.id.btnMapOpen)
         btnMapOpen.setOnClickListener {
             var intent = Intent(this, MapActivity::class.java)
