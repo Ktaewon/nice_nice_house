@@ -68,7 +68,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val places_api_key = "API_KEY"
+        val places_api_key = "AIzaSyAVEjRyS5VmNZmKS6iyXMrlddjZGnnFGF8"
         setContentView(R.layout.map_main)
         supportActionBar!!.setDisplayShowHomeEnabled(false)
         if (savedInstanceState != null) {
@@ -93,17 +93,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(p0: GoogleMap) {
         map = p0!!
         map!!.uiSettings.isZoomControlsEnabled = true
-        map!!.setOnMapClickListener { point ->
-            videoMark = GroundOverlayOptions().image(
-                BitmapDescriptorFactory.fromResource(R.drawable.presence_video_busy)
-            )
-                .position(point, 100f, 100f)
-            map!!.addGroundOverlay(videoMark)
-        }
+//        map!!.setOnMapClickListener { point ->
+//            videoMark = GroundOverlayOptions().image(
+//                BitmapDescriptorFactory.fromResource(R.drawable.presence_video_busy)
+//            )
+//                .position(point, 100f, 100f)
+//            map!!.addGroundOverlay(videoMark)
+//        }
 
         this.map?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
-            override fun getInfoContents(p0: Marker): View? {
-                TODO("Not yet implemented")
+            override fun getInfoContents(marker: Marker): View? {
+                val infoWindow = layoutInflater.inflate(R.layout.custom_info_contents,
+                    findViewById<FrameLayout>(R.id.map), false)
+                val title = infoWindow.findViewById<TextView1>(R.id.title)
+                title.text = marker.title
+                val snippet = infoWindow.findViewById<TextView1>(R.id.snippet)
+                snippet.text = marker.snippet
+                return infoWindow
             }
 
             // Return null here, so that getInfoContents() is called next.
@@ -136,9 +142,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(latLng)
-                    .title(storedData.get(i).storeName)
+                    .title(storedData[i].storeName)
+                    .snippet(storedData[i].Addr)
+
                 runOnUiThread {
-                    map!!.addMarker(markerOptions)
+                    map!!.addMarker(markerOptions)?.tag = storedData[i]
                 }
             }
         }
