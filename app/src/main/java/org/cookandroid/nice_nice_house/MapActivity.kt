@@ -42,6 +42,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var mapFrag: MapFragment
     lateinit var videoMark: GroundOverlayOptions
     lateinit var storedData:ArrayList<StoreData>
+    lateinit var foodData:ArrayList<StoreData>
     lateinit var addrList:ArrayList<LatLng>
 
     private var map: GoogleMap? = null
@@ -82,7 +83,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        storedData = intent.getSerializableExtra("storedData") as ArrayList<StoreData>
+        //storedData = intent.getSerializableExtra("storedData") as ArrayList<StoreData>
+        storedData = intent.getSerializableExtra("food") as ArrayList<StoreData>
+
         //addrList = intent.getSerializableExtra("addrList") as ArrayList<LatLng>
 //        Log.d("프로젝트", storedData.size.toString())
 
@@ -118,7 +121,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
 
+
         })
+
 
         // Prompt the user for permission.
         getLocationPermission()
