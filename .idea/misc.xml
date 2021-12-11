@@ -6,7 +6,14 @@
         <entry key="..\:/Users/dydal/AndroidStudioProjects/nice_nice_house/app/src/main/res/layout/activity_main.xml" value="0.18857142857142858" />
         <entry key="..\:/Users/dydal/AndroidStudioProjects/nice_nice_house/app/src/main/res/layout/detail_info.xml" value="0.3046875" />
         <entry key="..\:/Users/dydal/AndroidStudioProjects/nice_nice_house/app/src/main/res/layout/map_main.xml" value="0.153125" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.21958575953122442" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.19635416666666666" />
+        <entry key="app/src/main/res/drawable-v24/rectangle_edge_main.xml" value="0.19635416666666666" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.19635416666666666" />
+        <entry key="app/src/main/res/drawable/rectangle_shape.xml" value="0.209375" />
+        <entry key="app/src/main/res/font/font.xml" value="0.21041666666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2974507702011246" />
+        <entry key="app/src/main/res/layout/detail_info.xml" value="0.171875" />
+        <entry key="app/src/main/res/layout/map_main.xml" value="0.1" />
       </map>
     </option>
   </component>

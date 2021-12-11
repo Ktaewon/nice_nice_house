@@ -37,6 +37,7 @@ import kotlin.concurrent.thread
 import android.widget.TextView as TextView1
 
 
+
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var gMap: GoogleMap
     lateinit var mapFrag: MapFragment
@@ -69,7 +70,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val places_api_key = "key"
+        val places_api_key = "AIzaSyAVEjRyS5VmNZmKS6iyXMrlddjZGnnFGF8"
         setContentView(R.layout.map_main)
         supportActionBar!!.setDisplayShowHomeEnabled(false)
         if (savedInstanceState != null) {
