@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.security.identity.ResultData
 import android.util.Log
 import android.widget.Button
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import org.cookandroid.nice_nice_house.Services.ApiRequest
 import org.cookandroid.nice_nice_house.Services.ApiRequest.retrofit
 import org.cookandroid.nice_nice_house.Services.ItemAPI
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     val Author:String ="s6uCol2G%2F9kDZDHSm1qm7B7tEzlxymTvk3HNYpdJ1TKK4eUmcW%2F5Lu2mSsBOh%2FOP%2F1ZLytfgLjGK60CnlOJL8w%3D%3D"
     val ServiceKey="s6uCol2G/9kDZDHSm1qm7B7tEzlxymTvk3HNYpdJ1TKK4eUmcW/5Lu2mSsBOh/OP/1ZLytfgLjGK60CnlOJL8w=="
     var sampleData:ArrayList<StoreData>?=null
+    var addrList=ArrayList<LatLng>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         btnMapOpen.setOnClickListener {
             var intent = Intent(this, MapActivity::class.java)
             intent.putExtra("storedData", sampleData)
+            intent.putExtra("addrList",addrList)
             startActivity(intent)
         }
 
@@ -46,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                     var result: ResponseData? = response.body()
                     Log.i("test", response.body().toString())
                     sampleData=result!!.data;
+
                     printData(sampleData!!);
 
 
@@ -73,13 +78,19 @@ class MainActivity : AppCompatActivity() {
     fun printData( data:ArrayList<StoreData>)
     {
         Log.d("print",data.size.toString())
-        var count=0;
-        for (i in data)
-        {
-            Log.d("print",data.toString())
-            count+=1
-            if (count==10)
-                break;
+        var mapApi=MapActivity()
+
+
+        for (sd in data){
+            Log.d("프로젝트", sd.storeName + sd.Addr)
+            var context = this
+            val markerOptions = MarkerOptions()
+            val sdLocation = mapApi.addrToPoint(context, sd.Addr)
+            val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+            addrList.add(latLng)
+
         }
+
+
     }
 }

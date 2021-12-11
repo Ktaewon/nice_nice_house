@@ -29,6 +29,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var mapFrag: MapFragment
     lateinit var videoMark: GroundOverlayOptions
     lateinit var storedData:ArrayList<StoreData>
+    lateinit var addrList:ArrayList<LatLng>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         title = "Google 지도 활용"
 
         storedData = intent.getSerializableExtra("storedData") as ArrayList<StoreData>
+        addrList = intent.getSerializableExtra("addrList") as ArrayList<LatLng>
         Log.d("프로젝트", storedData.size.toString())
 
         mapFrag = fragmentManager.findFragmentById(R.id.map) as MapFragment
@@ -56,18 +58,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         var mMap = gMap
 
+
+
         // for loop를 통한 n개의 마커 생성
-        for (sd in storedData){
-            Log.d("프로젝트", sd.storeName + sd.Addr)
+        for (i in 0..storedData.size){
+            Log.d("프로젝트", storedData.get(i).storeName + storedData.get(i).Addr)
             var context = this
             val markerOptions = MarkerOptions()
-            val sdLocation = addrToPoint(context, sd.Addr)
 
-            val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-            Log.d("프로젝트", latLng.toString())
+            val latLng =addrList.get(i)
             markerOptions
                 .position(latLng)
-                .title(sd.storeName)
+                .title(storedData.get(i).storeName)
             mMap.addMarker(markerOptions)
         }
 
