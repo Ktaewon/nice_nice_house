@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         var retrofit:Retrofit= ApiRequest.getInstance();
         val api = retrofit.create(ItemAPI::class.java)
-        val Result= api.getItem(Author,ServiceKey)
+        val Result= api.getItem(Author,ServiceKey,1,400)
         Result.enqueue(object : Callback<ResponseData> {
             override fun onResponse(call: Call<ResponseData>, response: Response<ResponseData>) {
                 Log.d("success","실행2");
@@ -44,11 +44,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d("success","실행3");
                     var result: ResponseData? = response.body()
                     Log.i("test", response.body().toString())
-                    Log.d("test", response.code().toString())
-                    Log.d("test", result!!.data.get(1).id);
-                    Log.d("test", result.data.get(1).toString());
                     sampleData=result!!.data;
                     printData(sampleData!!);
+
 
 
                 } else {
@@ -73,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
     fun printData( data:ArrayList<StoreData>)
     {
+        Log.d("print",data.size.toString())
         var count=0;
         for (i in data)
         {
