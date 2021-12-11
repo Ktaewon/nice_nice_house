@@ -1,11 +1,15 @@
 package org.cookandroid.nice_nice_house
 
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -15,6 +19,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.GroundOverlayOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.io.IOException
 import android.widget.TextView as TextView1
 
 
@@ -32,9 +37,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         mapFrag = fragmentManager.findFragmentById(R.id.map) as MapFragment
         mapFrag.getMapAsync(this)
+
+        var main=MainActivity()
+        Log.d("map",main.sampleData.toString())
     }
 
-    override fun onMapReady(p0: GoogleMap): Boolean {
+    override fun onMapReady(p0: GoogleMap) {
         gMap = p0!!
         gMap.uiSettings.isZoomControlsEnabled = true
         gMap.setOnMapClickListener { point ->
@@ -58,29 +66,29 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
             // 2. 마커 생성 (마커를 나타냄)
             mMap.addMarker(makerOptions)
-            mMap.setOnMarkerClickListener { marker ->
-                card_view.visibility = View.VISIBLE
-                var parkname = findViewById<TextView1>(R.id.park_name)
-                var parkwhat = findViewById<TextView1>(R.id.park_what)
-                var parkadd1 = findViewById<TextView1>(R.id.park_add_lot)
-                var parkadd2 = findViewById<TextView1>(R.id.park_add_road)
-                var parkphone = findViewById<TextView1>(R.id.phone_num)
-                var parkequip = findViewById<TextView1>(R.id.equip)
-                var arr = marker.tag.toString().split("/") //마커에 붙인 태그
-                parkname.text = marker.title
-                parkwhat.text = marker.snippet
-                parkadd1.text = arr[0]
-                parkadd2.text = arr[1]
-                parkphone.text = arr[2]
-                parkequip.text = arr[3]
-                //                Log.d("parkinfo", "parkname->"+marker.title+"___pakrwhat->")
-                false
-            }
+//            mMap.setOnMarkerClickListener { marker ->
+//                card_view.visibility = View.VISIBLE
+//                var parkname = findViewById<TextView1>(R.id.park_name)
+//                var parkwhat = findViewById<TextView1>(R.id.park_what)
+//                var parkadd1 = findViewById<TextView1>(R.id.park_add_lot)
+//                var parkadd2 = findViewById<TextView1>(R.id.park_add_road)
+//                var parkphone = findViewById<TextView1>(R.id.phone_num)
+//                var parkequip = findViewById<TextView1>(R.id.equip)
+//                var arr = marker.tag.toString().split("/") //마커에 붙인 태그
+//                parkname.text = marker.title
+//                parkwhat.text = marker.snippet
+//                parkadd1.text = arr[0]
+//                parkadd2.text = arr[1]
+//                parkphone.text = arr[2]
+//                parkequip.text = arr[3]
+//                //                Log.d("parkinfo", "parkname->"+marker.title+"___pakrwhat->")
+//                false
+//            }
         }
         // 카메라를 위치로 옮긴다.
         mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(37.52487, 126.92723)))
 
-        return false
+        //return false
     }
 
 
@@ -119,5 +127,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
         return false
+    }
+    fun addrToPoint(context: Context?): Location? {
+        val location = Location("")
+        val geocoder = Geocoder(context)
+        var addresses: List<Address>? = null
+        try {
+            addresses = geocoder.getFromLocationName("포천시청", 3)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        if (addresses != null) {
+            for (i in addresses.indices) {
+                val lating: Address = addresses[i]
+                location.setLatitude(lating.getLatitude())
+                location.setLongitude(lating.getLongitude())
+            }
+        }
+        return location
     }
 }
