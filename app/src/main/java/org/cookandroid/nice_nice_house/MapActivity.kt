@@ -112,6 +112,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         //addrList = intent.getSerializableExtra("addrList") as ArrayList<LatLng>
 //        Log.d("프로젝트", storedData.size.toString())
 
+
+
         val autocompleteFragment =
             supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
                     as AutocompleteSupportFragment
