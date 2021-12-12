@@ -10,12 +10,25 @@
     map:cameraTargetLat="37.541"
     map:cameraTargetLng="126.986"
     map:cameraZoom="15">
-    <fragment
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/autocomplete_fragment"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <fragment
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/autocomplete_fragment"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            />
+        <Button
+
+            android:visibility="invisible"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
 </fragment>

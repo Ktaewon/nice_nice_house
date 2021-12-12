@@ -18,6 +18,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -38,6 +40,7 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import org.cookandroid.nice_nice_house.data.StoreData
 import java.io.IOException
 import kotlin.concurrent.thread
@@ -78,7 +81,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val places_api_key = "AIzaSyAVEjRyS5VmNZmKS6iyXMrlddjZGnnFGF8"
-        setContentView(R.layout.map_main)
+        setContentView(R.layout.detail_info)
         supportActionBar!!.hide()
         //supportActionBar!!.setDisplayShowHomeEnabled(false)
         if (savedInstanceState != null) {
@@ -137,6 +140,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 //                .position(point, 100f, 100f)
 //            map!!.addGroundOverlay(videoMark)
 //        }
+//        var drawer = findViewById<RelativeLayout>(R.id.drawer)
+//        drawer.visibility = View.INVISIBLE
 
         this.map?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
             override fun getInfoContents(marker: Marker): View? {
@@ -173,8 +178,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
             var count = 0
-            for (i in 1..storedData.size - 1) {
-                Log.d("프로젝트_스레드1 + $count", storedData[i].storeName + storedData[i].Addr)
+            for (i in 1..storedData.size / 4 - 1) {
+                //Log.d("프로젝트_스레드1 + $count", storedData[i].storeName + storedData[i].Addr)
                 count += 1
                 val sdLocation = addrToPoint(this, storedData[i].Addr)
                 val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
@@ -182,7 +187,61 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 markerOptions
                     .position(latLng)
                     .title(storedData[i].storeName)
-                    .snippet(storedData[i].Addr)
+                    .snippet(storedData[i].Addr.split("?").joinToString(" "))
+
+                runOnUiThread {
+                    map!!.addMarker(markerOptions)?.tag = storedData[i]
+                }
+            }
+        }
+        thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
+            var count = 0
+            for (i in storedData.size/4 .. storedData.size/2 - 1) {
+                //Log.d("프로젝트_스레드2 + $count", storedData[i].storeName + storedData[i].Addr)
+                count += 1
+                val sdLocation = addrToPoint(this, storedData[i].Addr)
+                val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+                val markerOptions = MarkerOptions()
+                markerOptions
+                    .position(latLng)
+                    .title(storedData[i].storeName)
+                    .snippet(storedData[i].Addr.split("?").joinToString(" "))
+
+                runOnUiThread {
+                    map!!.addMarker(markerOptions)?.tag = storedData[i]
+                }
+            }
+        }
+        thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
+            var count = 0
+            for (i in storedData.size/2 .. storedData.size*3/4 - 1) {
+                //Log.d("프로젝트_스레드3 + $count", storedData[i].storeName + storedData[i].Addr)
+                count += 1
+                val sdLocation = addrToPoint(this, storedData[i].Addr)
+                val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+                val markerOptions = MarkerOptions()
+                markerOptions
+                    .position(latLng)
+                    .title(storedData[i].storeName)
+                    .snippet(storedData[i].Addr.split("?").joinToString(" "))
+
+                runOnUiThread {
+                    map!!.addMarker(markerOptions)?.tag = storedData[i]
+                }
+            }
+        }
+        thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
+            var count = 0
+            for (i in storedData.size*3/4 .. storedData.size - 1) {
+                //Log.d("프로젝트_스레드4 + $count", storedData[i].storeName + storedData[i].Addr)
+                count += 1
+                val sdLocation = addrToPoint(this, storedData[i].Addr)
+                val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+                val markerOptions = MarkerOptions()
+                markerOptions
+                    .position(latLng)
+                    .title(storedData[i].storeName)
+                    .snippet(storedData[i].Addr.split("?").joinToString(" "))
 
                 runOnUiThread {
                     map!!.addMarker(markerOptions)?.tag = storedData[i]
@@ -190,57 +249,44 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+        map!!.setOnMapClickListener {
+            var drawerLayout =findViewById<SlidingUpPanelLayout>(R.id.drawerLayout)
+            drawerLayout.panelHeight = 0
+            //var drawer = findViewById<RelativeLayout>(R.id.drawer)
+            //drawer.visibility = View.GONE
+        }
 
+        map!!.setOnMarkerClickListener (object : GoogleMap.OnMarkerClickListener {
+            override fun onMarkerClick(marker: Marker): Boolean {
+                Log.d("마커", "마커안")
+                var drawerLayout =findViewById<SlidingUpPanelLayout>(R.id.drawerLayout)
+                drawerLayout.panelHeight = 130
+                //var detailBtn = findViewById<View>(R.id.detailBtn)
+                //detailBtn.visibility = View.VISIBLE
+                //var storeDetail = findViewById<LinearLayout>(R.id.storeDetail)
+                //storeDetail.visibility = View.VISIBLE
+                var title = findViewById<android.widget.TextView>(R.id.tvStoreTitle)
+                var type = findViewById<android.widget.TextView>(R.id.tvStoreType)
+                var addr = findViewById<android.widget.TextView>(R.id.tvStoreAddr)
+                var tel = findViewById<android.widget.TextView>(R.id.tvStoreTel)
+                var menu = findViewById<android.widget.TextView>(R.id.tvMenu)
+                var price = findViewById<android.widget.TextView>(R.id.tvPrice)
+                val data = marker.tag as StoreData
+                title.text = data.storeName
+                type.text = data.storeType
+                addr.text = data.Addr.split("?").joinToString(" ")
+                tel.text = data.phoneNum
+                menu.text = data.menu1
+                price.text = data.price1 + "원"
 
+                // var arr = marker.tag.toString().split("/") //마커에 붙인 태그
 
-
-        // for loop를 통한 n개의 마커 생성
-//        for (i in 1..storedData.size-1){
-//            Log.d("프로젝트", storedData.get(i).storeName + storedData.get(i).Addr)
-//            var context = this
-//            val markerOptions = MarkerOptions()
-//
-//            val latLng =addrList.get(i)
-//            markerOptions
-//                .position(latLng)
-//                .title(storedData.get(i).storeName)
-//            mMap.addMarker(markerOptions)
-//        }
-
-        // for loop를 통한 n개의 마커 생성
-//        for (idx in 0..9) {
-//            // 1. 마커 옵션 설정 (만드는 과정)
-//            val makerOptions = MarkerOptions()
-//            makerOptions // LatLng에 대한 어레이를 만들어서 이용할 수도 있다.
-//                .position(LatLng(37.52487 + idx, 126.92723))
-//                .title("마커$idx") // 타이틀.
-//
-//            // 2. 마커 생성 (마커를 나타냄)
-//            mMap.addMarker(makerOptions)
-////            mMap.setOnMarkerClickListener { marker ->
-////                card_view.visibility = View.VISIBLE
-////                var parkname = findViewById<TextView1>(R.id.park_name)
-////                var parkwhat = findViewById<TextView1>(R.id.park_what)
-////                var parkadd1 = findViewById<TextView1>(R.id.park_add_lot)
-////                var parkadd2 = findViewById<TextView1>(R.id.park_add_road)
-////                var parkphone = findViewById<TextView1>(R.id.phone_num)
-////                var parkequip = findViewById<TextView1>(R.id.equip)
-////                var arr = marker.tag.toString().split("/") //마커에 붙인 태그
-////                parkname.text = marker.title
-////                parkwhat.text = marker.snippet
-////                parkadd1.text = arr[0]
-////                parkadd2.text = arr[1]
-////                parkphone.text = arr[2]
-////                parkequip.text = arr[3]
-////                //                Log.d("parkinfo", "parkname->"+marker.title+"___pakrwhat->")
-////                false
-////            }
-//        }
-
-        //35.871435,128.601445
-
-        //return false
+                //                Log.d("parkinfo", "parkname->"+marker.title+"___pakrwhat->")
+                return false
+            }
+        })
     }
+
 
     fun drawMark(stdata:ArrayList<StoreData>, adList:ArrayList<LatLng>){
         for (i in 1..stdata.size-1){
