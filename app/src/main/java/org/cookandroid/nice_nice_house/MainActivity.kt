@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     val Author:String ="s6uCol2G%2F9kDZDHSm1qm7B7tEzlxymTvk3HNYpdJ1TKK4eUmcW%2F5Lu2mSsBOh%2FOP%2F1ZLytfgLjGK60CnlOJL8w%3D%3D"
     val ServiceKey="s6uCol2G/9kDZDHSm1qm7B7tEzlxymTvk3HNYpdJ1TKK4eUmcW/5Lu2mSsBOh/OP/1ZLytfgLjGK60CnlOJL8w=="
     var sampleData:ArrayList<StoreData>?=null
+    var AllFood=ArrayList<CompositeData>()  //모든 데이터
     var EFood=ArrayList<CompositeData>()   //양식, 기타양식
     var CFood=ArrayList<CompositeData>()
     var KGFood=ArrayList<CompositeData>()
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var ks_food:ImageView
     lateinit var kb_food:ImageView
     lateinit var all_food:ImageView
+    lateinit var btnMapOpen:Button
 
 
     val places_api_key = "AIzaSyAVEjRyS5VmNZmKS6iyXMrlddjZGnnFGF8"
@@ -78,14 +80,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar!!.hide()
-        var btnMapOpen = findViewById<Button>(R.id.btnMapOpen)
-        btnMapOpen.setOnClickListener {
-            var intent = Intent(this, MapActivity::class.java)
-            intent.putExtra("food", sampleData)
-//            intent.putExtra("addrList",addrList)
-            startActivity(intent)
-        }
 
+
+        btnMapOpen = findViewById<Button>(R.id.btnMapOpen) //지도열기 버튼
         //각버튼 아이디 매칭
         e_food = findViewById(R.id.e_food)
         j_food=findViewById(R.id.j_food)
@@ -184,9 +181,9 @@ class MainActivity : AppCompatActivity() {
                     Log.d("TestLog", KSFood.toString())
                     intent.putExtra("food",KSFood)
                 }
-                R.id.all_food -> {
+                R.id.all_food,R.id.btnMapOpen -> {
 
-                    intent.putExtra("food",sampleData)
+                    intent.putExtra("food",AllFood)
                 }
             }
 
@@ -263,7 +260,6 @@ class MainActivity : AppCompatActivity() {
 
 
             })
-
 
 
         }
