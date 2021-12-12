@@ -195,7 +195,8 @@ class MainActivity : AppCompatActivity() {
     {
         Log.d("method:printData","총 받은  데이터 갯수: "+data.size.toString())
 
-
+        var count = 0
+        var not = 0
         for (d in data){
             var place:Place?=null
             Log.d("data",d.storeType.toString())
@@ -216,30 +217,6 @@ class MainActivity : AppCompatActivity() {
                             Log.d(TAG, "title($i): $placeName")
 
 
-                            // Define a Place ID.
-                            val placeId = placeName
-
-// Specify the fields to return.
-                            val placeFields = listOf(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG,Place.Field.PHOTO_METADATAS,
-                                Place.Field.RATING, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.OPENING_HOURS)
-
-// Construct a request object, passing the place ID and fields array.
-                            val request = FetchPlaceRequest.newInstance(placeId, placeFields)
-
-                            Places.initialize(applicationContext, places_api_key)
-                            var placesClient = Places.createClient(this@MainActivity)
-                            placesClient.fetchPlace(request)
-                                .addOnSuccessListener { response: FetchPlaceResponse ->
-                                    place = response.place
-                                    Log.d("플레이스", place.toString())
-                                    divideCat(d, place)
-                                }.addOnFailureListener { exception: Exception ->
-                                    if (exception is ApiException) {
-                                        Log.d("데이터", "안들어옴")
-                                        Log.e(TAG, "Place not found: ${exception.message}")
-                                        val statusCode = exception.statusCode
-                                    }
-                                }
 
 
                         }

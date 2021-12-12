@@ -5,6 +5,7 @@ import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ComponentCallbacks
+import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
@@ -38,8 +39,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
-import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -50,7 +49,11 @@ import android.widget.TextView as TextView1
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 import android.graphics.drawable.BitmapDrawable
+import android.widget.ImageView
+import com.google.android.gms.common.api.ApiException
+import com.google.android.libraries.places.api.net.*
 import org.cookandroid.nice_nice_house.data.CompositeData
+import org.json.JSONObject
 
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -188,31 +191,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             for (i in 1..storedData.size / 4 - 1) {
                 //Log.d("프로젝트_스레드1 + $count", storedData[i].storeName + storedData[i].Addr)
                 count += 1
-                if (storedData[i].place != null){
-                    val latLng = storedData[i].place.latLng
-                    val markerOptions = MarkerOptions()
-                    markerOptions
-                        .position(latLng!!)
-                        .title(storedData[i].place.name)
-                        .snippet(storedData[i].place.address)
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
+                //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+                val latLng = LatLng(storedData[i].location["lat"].toDouble(), storedData[i].location["long"].toDouble())
+                val markerOptions = MarkerOptions()
+                markerOptions
+                    .position(latLng)
+                    .title(storedData[i].data.storeName)
+                    .snippet(storedData[i].data.Addr.split("?").joinToString(" "))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
-                    runOnUiThread {
-                        map!!.addMarker(markerOptions)?.tag = storedData[i]
-                    }
-                } else {
-                    val sdLocation = addrToPoint(this, storedData[i].data.Addr)
-                    val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                    val markerOptions = MarkerOptions()
-                    markerOptions
-                        .position(latLng)
-                        .title(storedData[i].data.storeName)
-                        .snippet(storedData[i].data.Addr.split("?").joinToString(" "))
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-
-                    runOnUiThread {
-                        map!!.addMarker(markerOptions)?.tag = storedData[i]
-                    }
+                runOnUiThread {
+                    map!!.addMarker(markerOptions)?.tag = storedData[i]
                 }
 
             }
@@ -222,31 +212,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             for (i in storedData.size/4 .. storedData.size/2 - 1) {
                 //Log.d("프로젝트_스레드2 + $count", storedData[i].storeName + storedData[i].Addr)
                 count += 1
-                if (storedData[i].place != null){
-                    val latLng = storedData[i].place.latLng
-                    val markerOptions = MarkerOptions()
-                    markerOptions
-                        .position(latLng!!)
-                        .title(storedData[i].place.name)
-                        .snippet(storedData[i].place.address)
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                count += 1
+                //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
+                //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+                val latLng = LatLng(storedData[i].location["lat"].toDouble(), storedData[i].location["long"].toDouble())
+                val markerOptions = MarkerOptions()
+                markerOptions
+                    .position(latLng)
+                    .title(storedData[i].data.storeName)
+                    .snippet(storedData[i].data.Addr.split("?").joinToString(" "))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
-                    runOnUiThread {
-                        map!!.addMarker(markerOptions)?.tag = storedData[i]
-                    }
-                } else {
-                    val sdLocation = addrToPoint(this, storedData[i].data.Addr)
-                    val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                    val markerOptions = MarkerOptions()
-                    markerOptions
-                        .position(latLng)
-                        .title(storedData[i].data.storeName)
-                        .snippet(storedData[i].data.Addr.split("?").joinToString(" "))
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-
-                    runOnUiThread {
-                        map!!.addMarker(markerOptions)?.tag = storedData[i]
-                    }
+                runOnUiThread {
+                    map!!.addMarker(markerOptions)?.tag = storedData[i]
                 }
             }
         }
@@ -255,31 +233,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             for (i in storedData.size/2 .. storedData.size*3/4 - 1) {
                 //Log.d("프로젝트_스레드3 + $count", storedData[i].storeName + storedData[i].Addr)
                 count += 1
-                if (storedData[i].place != null){
-                    val latLng = storedData[i].place.latLng
-                    val markerOptions = MarkerOptions()
-                    markerOptions
-                        .position(latLng!!)
-                        .title(storedData[i].place.name)
-                        .snippet(storedData[i].place.address)
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                count += 1
+                //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
+                //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+                val latLng = LatLng(storedData[i].location["lat"].toDouble(), storedData[i].location["long"].toDouble())
+                val markerOptions = MarkerOptions()
+                markerOptions
+                    .position(latLng)
+                    .title(storedData[i].data.storeName)
+                    .snippet(storedData[i].data.Addr.split("?").joinToString(" "))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
-                    runOnUiThread {
-                        map!!.addMarker(markerOptions)?.tag = storedData[i]
-                    }
-                } else {
-                    val sdLocation = addrToPoint(this, storedData[i].data.Addr)
-                    val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                    val markerOptions = MarkerOptions()
-                    markerOptions
-                        .position(latLng)
-                        .title(storedData[i].data.storeName)
-                        .snippet(storedData[i].data.Addr.split("?").joinToString(" "))
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-
-                    runOnUiThread {
-                        map!!.addMarker(markerOptions)?.tag = storedData[i]
-                    }
+                runOnUiThread {
+                    map!!.addMarker(markerOptions)?.tag = storedData[i]
                 }
             }
         }
@@ -288,31 +254,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             for (i in storedData.size*3/4 .. storedData.size - 1) {
                 //Log.d("프로젝트_스레드4 + $count", storedData[i].storeName + storedData[i].Addr)
                 count += 1
-                if (storedData[i].place != null){
-                    val latLng = storedData[i].place.latLng
-                    val markerOptions = MarkerOptions()
-                    markerOptions
-                        .position(latLng!!)
-                        .title(storedData[i].place.name)
-                        .snippet(storedData[i].place.address)
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                count += 1
+                //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
+                //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+                val latLng = LatLng(storedData[i].location["lat"].toDouble(), storedData[i].location["long"].toDouble())
+                val markerOptions = MarkerOptions()
+                markerOptions
+                    .position(latLng)
+                    .title(storedData[i].data.storeName)
+                    .snippet(storedData[i].data.Addr.split("?").joinToString(" "))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
-                    runOnUiThread {
-                        map!!.addMarker(markerOptions)?.tag = storedData[i]
-                    }
-                } else {
-                    val sdLocation = addrToPoint(this, storedData[i].data.Addr)
-                    val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                    val markerOptions = MarkerOptions()
-                    markerOptions
-                        .position(latLng)
-                        .title(storedData[i].data.storeName)
-                        .snippet(storedData[i].data.Addr.split("?").joinToString(" "))
-                        .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
-
-                    runOnUiThread {
-                        map!!.addMarker(markerOptions)?.tag = storedData[i]
-                    }
+                runOnUiThread {
+                    map!!.addMarker(markerOptions)?.tag = storedData[i]
                 }
             }
         }
@@ -329,10 +283,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 Log.d("마커", "마커안")
                 var drawerLayout =findViewById<SlidingUpPanelLayout>(R.id.drawerLayout)
                 drawerLayout.panelHeight = 130
-                //var detailBtn = findViewById<View>(R.id.detailBtn)
-                //detailBtn.visibility = View.VISIBLE
-                //var storeDetail = findViewById<LinearLayout>(R.id.storeDetail)
-                //storeDetail.visibility = View.VISIBLE
                 var title = findViewById<android.widget.TextView>(R.id.tvStoreTitle)
                 var type = findViewById<android.widget.TextView>(R.id.tvStoreType)
                 var addr = findViewById<android.widget.TextView>(R.id.tvStoreAddr)
@@ -340,15 +290,78 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 var menu = findViewById<android.widget.TextView>(R.id.tvMenu)
                 var price = findViewById<android.widget.TextView>(R.id.tvPrice)
                 var score = findViewById<android.widget.TextView>(R.id.tvScore)
+                var img = findViewById<ImageView>(R.id.StoreImg)
+
                 val compositeData = marker.tag as CompositeData
                 var data = compositeData.data
-                var place = compositeData.place
-                title.text = data.storeName
-                type.text = data.storeType
-                addr.text = data.Addr.split("?").joinToString(" ")
-                tel.text = data.phoneNum
-                menu.text = data.menu1
-                price.text = data.price1 + "원"
+                var placeId = compositeData.placeId as String
+                //var location = compositeData.location as JSONObject
+
+                val placeFields = listOf(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG,Place.Field.PHOTO_METADATAS,
+                    Place.Field.RATING, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.OPENING_HOURS)
+
+                val request = FetchPlaceRequest.newInstance(placeId, placeFields)
+
+                placesClient.fetchPlace(request)
+                    .addOnSuccessListener { response: FetchPlaceResponse ->
+                        var place:Place = response.place
+                        title.text = place.name
+                        type.text = data.storeType
+                        addr.text = place.address
+                        tel.text = data.phoneNum
+                        menu.text = data.menu1
+                        price.text = data.price1 + "원"
+                        score.text = place.rating.toString()
+                        val metada = place.photoMetadatas
+                        if (metada == null || metada.isEmpty()) {
+                            Log.w(TAG, "No photo metadata.")
+                            return@addOnSuccessListener
+                        }
+                        val photoMetadata = metada.first()
+
+                        // Get the attribution text.
+                        val attributions = photoMetadata?.attributions
+
+                        // Create a FetchPhotoRequest.
+                        val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                            .setMaxWidth(500) // Optional.
+                            .setMaxHeight(300) // Optional.
+                            .build()
+                        placesClient.fetchPhoto(photoRequest)
+                            .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
+                                val bitmap = fetchPhotoResponse.bitmap
+                                img.setImageBitmap(bitmap)
+                            }.addOnFailureListener { exception: Exception ->
+                                if (exception is ApiException) {
+                                    Log.e(TAG, "Place not found: " + exception.message)
+                                    val statusCode = exception.statusCode
+                                    //TODO("Handle error with given status code.")
+                                }
+                            }
+
+                        //divideCat(d, place)
+                    }.addOnFailureListener { exception: Exception ->
+                        if (exception is ApiException) {
+                            Log.e(ContentValues.TAG, "Place not found: ${exception.message}")
+                            title.text = data.storeName
+                            type.text = data.storeType
+                            addr.text = data.Addr.split("?").joinToString(" ")
+                            tel.text = data.phoneNum
+                            menu.text = data.menu1
+                            price.text = data.price1 + "원"
+                            val statusCode = exception.statusCode
+                        }
+                    }
+
+
+                //var detailBtn = findViewById<View>(R.id.detailBtn)
+                //detailBtn.visibility = View.VISIBLE
+                //var storeDetail = findViewById<LinearLayout>(R.id.storeDetail)
+                //storeDetail.visibility = View.VISIBLE
+
+
+
+
                 if (place != null){
                     score.text = place.rating.toString()
                     addr.text = place.address
