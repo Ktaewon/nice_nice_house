@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object GoogleMapAPI {
     lateinit var api:ItemAPI
     var retrofit: Retrofit?=null;
-    var base_url="https://maps.googleapis.com/maps/api/geocode/json?";
+    var base_url="https://maps.googleapis.com/maps/api/geocode/";
 
 
     fun getInstance(): Retrofit {
