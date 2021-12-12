@@ -32,7 +32,7 @@
             android:theme="@style/Theme.Nice_nice_house"
             android:usesCleartextTraffic="true">
         <activity
-                android:name=".SplashActivity"
+                android:name=".MainActivity"
                 android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -42,11 +42,11 @@
         </activity>
         <!-- 간단하게 진행하는통신이라  http로 진행할것인데 이를 허가해주는 설정입 -->
         <activity
-                android:name=".MainActivity"
+                android:name=".MapActivity"
                 android:exported="true">
 
         </activity>
-        <activity android:name=".MapActivity"/>
+        <activity android:name=".SplashActivity"/>
 
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"

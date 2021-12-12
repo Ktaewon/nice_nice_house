@@ -77,9 +77,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar!!.hide()
+        val intent = Intent(this, SplashActivity::class.java)
+        startActivity(intent)
 
 
         btnMapOpen = findViewById<Button>(R.id.btnMapOpen) //지도열기 버튼
+
         //각버튼 아이디 매칭
         e_food = findViewById(R.id.e_food)
         j_food=findViewById(R.id.j_food)
@@ -90,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         ks_food = findViewById(R.id.ks_food)
         kb_food = findViewById(R.id.kb_food)
         all_food = findViewById(R.id.all_food)
-
+        btnMapOpen.setOnClickListener(ButtonListener())
         e_food.setOnClickListener(ButtonListener())
         j_food.setOnClickListener(ButtonListener())
         c_food.setOnClickListener(ButtonListener())
@@ -216,6 +219,7 @@ class MainActivity : AppCompatActivity() {
                             var location=Geometry["location"] as JSONObject
 
 
+
                             Log.d(TAG, "title($i): $placNameName, ${location is JSONObject}")
                             divideCat(d, location,placNameName)
 
@@ -247,39 +251,41 @@ class MainActivity : AppCompatActivity() {
 
     }
     fun divideCat(d: StoreData, location: JSONObject, placName: String){
-        AllFood?.add(CompositeData(placName!!,location, d))
+        var lat = location.getDouble("lat")
+        var long = location.getDouble("lng")
+        AllFood?.add(CompositeData(placName!!,lat, long, d))
         when(d.storeType) {
             "양식", "기타양식" -> {
                 if (placName != null)
-                    EFood?.add(CompositeData(placName!!,location, d))
+                    EFood?.add(CompositeData(placName!!,lat, long, d))
             }
             "중식" -> {
                 if (placName != null)
-                    CFood?.add(CompositeData(placName!!,location, d))
+                    CFood?.add(CompositeData(placName!!,lat, long, d))
             }
             "한식_일반" -> {
                 if (placName != null)
-                    KGFood?.add(CompositeData(placName!!,location, d))
+                    KGFood?.add(CompositeData(placName!!,lat, long, d))
             }
             "한식_육류" -> {
                 if (placName != null)
-                    KMFood?.add(CompositeData(placName!!, location,d))
+                    KMFood?.add(CompositeData(placName!!,lat, long, d))
             }
             "한식_찌개류", "한식_면류" -> {
                 if (placName != null)
-                    KNFood?.add(CompositeData(placName!!,location, d))
+                    KNFood?.add(CompositeData(placName!!,lat, long, d))
             }
             "일식" -> {
                 if (placName != null)
-                    JFood?.add(CompositeData(placName!!,location, d))
+                    JFood?.add(CompositeData(placName!!,lat, long, d))
             }
             "한식_해산물" -> {
                 if (placName != null)
-                    KSFood?.add(CompositeData(placName!!,location, d))
+                    KSFood?.add(CompositeData(placName!!,lat, long, d))
             }
             "한식_분식" -> {
                 if (placName != null)
-                    KBFood?.add(CompositeData(placName!!,location, d))
+                    KBFood?.add(CompositeData(placName!!,lat, long, d))
             }
         }
     }

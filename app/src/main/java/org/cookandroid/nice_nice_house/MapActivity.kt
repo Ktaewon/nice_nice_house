@@ -193,7 +193,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 count += 1
                 //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
                 //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                val latLng = LatLng(storedData[i].location.getDouble("lat"), storedData[i].location.getDouble("long"))
+                val latLng = LatLng(storedData[i].lat, storedData[i].long)
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(latLng)
@@ -215,7 +215,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 count += 1
                 //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
                 //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                val latLng = LatLng(storedData[i].location.getDouble("lat"), storedData[i].location.getDouble("long"))
+                val latLng = LatLng(storedData[i].lat, storedData[i].long)
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(latLng)
@@ -236,7 +236,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 count += 1
                 //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
                 //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                val latLng = LatLng(storedData[i].location.getDouble("lat"), storedData[i].location.getDouble("long"))
+                val latLng = LatLng(storedData[i].lat, storedData[i].long)
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(latLng)
@@ -257,7 +257,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 count += 1
                 //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
                 //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                val latLng = LatLng(storedData[i].location.getDouble("lat"), storedData[i].location.getDouble("long"))
+                val latLng = LatLng(storedData[i].lat, storedData[i].long)
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(latLng)
@@ -305,39 +305,52 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 placesClient.fetchPlace(request)
                     .addOnSuccessListener { response: FetchPlaceResponse ->
                         var place:Place = response.place
-                        title.text = place.name
-                        type.text = data.storeType
-                        addr.text = place.address
-                        tel.text = data.phoneNum
-                        menu.text = data.menu1
-                        price.text = data.price1 + "원"
-                        score.text = place.rating.toString()
-                        val metada = place.photoMetadatas
-                        if (metada == null || metada.isEmpty()) {
-                            Log.w(TAG, "No photo metadata.")
-                            return@addOnSuccessListener
-                        }
-                        val photoMetadata = metada.first()
-
-                        // Get the attribution text.
-                        val attributions = photoMetadata?.attributions
-
-                        // Create a FetchPhotoRequest.
-                        val photoRequest = FetchPhotoRequest.builder(photoMetadata)
-                            .setMaxWidth(500) // Optional.
-                            .setMaxHeight(300) // Optional.
-                            .build()
-                        placesClient.fetchPhoto(photoRequest)
-                            .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
-                                val bitmap = fetchPhotoResponse.bitmap
-                                img.setImageBitmap(bitmap)
-                            }.addOnFailureListener { exception: Exception ->
-                                if (exception is ApiException) {
-                                    Log.e(TAG, "Place not found: " + exception.message)
-                                    val statusCode = exception.statusCode
-                                    //TODO("Handle error with given status code.")
-                                }
+                        if (place.rating != null){
+                            title.text = place.name
+                            type.text = data.storeType
+                            addr.text = place.address
+                            tel.text = data.phoneNum
+                            menu.text = data.menu1
+                            price.text = data.price1 + "원"
+                            score.text = place.rating.toString()
+                            val metada = place.photoMetadatas
+                            if (metada == null || metada.isEmpty()) {
+                                Log.w(TAG, "No photo metadata.")
+                                return@addOnSuccessListener
                             }
+                            val photoMetadata = metada.first()
+
+                            // Get the attribution text.
+                            val attributions = photoMetadata?.attributions
+
+                            // Create a FetchPhotoRequest.
+                            val photoRequest = FetchPhotoRequest.builder(photoMetadata)
+                                .setMaxWidth(500) // Optional.
+                                .setMaxHeight(300) // Optional.
+                                .build()
+                            placesClient.fetchPhoto(photoRequest)
+                                .addOnSuccessListener { fetchPhotoResponse: FetchPhotoResponse ->
+                                    val bitmap = fetchPhotoResponse.bitmap
+                                    img.setImageBitmap(bitmap)
+                                }.addOnFailureListener { exception: Exception ->
+                                    if (exception is ApiException) {
+                                        Log.e(TAG, "Place not found: " + exception.message)
+                                        val statusCode = exception.statusCode
+                                        //TODO("Handle error with given status code.")
+                                    }
+                                }
+                        }else {
+                            title.text = data.storeName
+                            type.text = data.storeType
+                            addr.text = data.Addr.split("?").joinToString(" ")
+                            tel.text = data.phoneNum
+                            menu.text = data.menu1
+                            price.text = data.price1 + "원"
+                            score.text = "구글맵에 평점이 없습니다"
+                            img.setImageResource(R.drawable.default_img)
+                        }
+
+
 
                         //divideCat(d, place)
                     }.addOnFailureListener { exception: Exception ->
@@ -349,6 +362,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                             tel.text = data.phoneNum
                             menu.text = data.menu1
                             price.text = data.price1 + "원"
+                            score.text = "구글맵에 평점이 없습니다"
+                            img.setImageResource(R.drawable.default_img)
                             val statusCode = exception.statusCode
                         }
                     }
