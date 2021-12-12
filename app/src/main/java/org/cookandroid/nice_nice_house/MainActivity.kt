@@ -9,17 +9,14 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.api.net.FetchPlaceResponse
+
 import com.google.gson.JsonObject
 import org.cookandroid.nice_nice_house.Services.ApiRequest
 import org.cookandroid.nice_nice_house.Services.GoogleMapAPI
 import org.cookandroid.nice_nice_house.Services.ItemAPI
 import org.cookandroid.nice_nice_house.Services.PlaceAPI
+
 import org.cookandroid.nice_nice_house.data.CompositeData
 import org.cookandroid.nice_nice_house.data.ResponseData
 import org.cookandroid.nice_nice_house.data.StoreData
@@ -71,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnMapOpen:Button
 
 
-    val places_api_key = "AIzaSyAVEjRyS5VmNZmKS6iyXMrlddjZGnnFGF8"
+    val placNames_api_key = "AIzaSyAVEjRyS5VmNZmKS6iyXMrlddjZGnnFGF8"
 
 
 
@@ -104,8 +101,8 @@ class MainActivity : AppCompatActivity() {
         kn_food.setOnClickListener(ButtonListener())
         all_food.setOnClickListener(ButtonListener())
 
-        var placeRetrofit:Retrofit= GoogleMapAPI.getInstance();
-        var placeApi=placeRetrofit.create(PlaceAPI::class.java)
+        var placNameRetrofit:Retrofit= GoogleMapAPI.getInstance();
+        var placNameApi=placNameRetrofit.create(PlaceAPI::class.java)
 
         var retrofit:Retrofit= ApiRequest.getInstance();
         val api = retrofit.create(ItemAPI::class.java)
@@ -118,9 +115,9 @@ class MainActivity : AppCompatActivity() {
                     Log.i("test", response.body().toString())
                     sampleData=result!!.data;
                     thread(start = true) {
-                        parseData(sampleData!!,placeApi);
+                        parseData(sampleData!!,placNameApi);
                     }
-                    //parseData(sampleData!!,placeApi);
+                    //parseData(sampleData!!,placNameApi);
 
 
                 } else {
@@ -198,26 +195,29 @@ class MainActivity : AppCompatActivity() {
         var count = 0
         var not = 0
         for (d in data){
-            var place:Place?=null
+            var placName:String?=null
             Log.d("data",d.storeType.toString())
-            var result= placeApi.getPlaceID(d.Addr+ "?" +d.storeName,"AIzaSyA-QQQIaULw-TI4BIXjY8PchV2l2IRFRas","ko")
+            var result=placeApi.getPlaceID(d.Addr+ "?" +d.storeName,"AIzaSyA-QQQIaULw-TI4BIXjY8PchV2l2IRFRas","ko")
             result.enqueue(object : Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     if (response.isSuccessful) {
 
-                        Log.i("testPlace", response.body().toString())
+                        Log.i("testplacName", response.body().toString())
 
                         val jObject = JSONObject(response.body().toString())
                         val jArray = jObject.getJSONArray("results")
 
+
+
                         for (i in 0 until jArray.length()) {
                             val obj = jArray.getJSONObject(i)
-                            val placeName = obj.getString("place_id")
+                            val placNameName = obj.getString("placName_id")
+                            var Geometry=obj.getJSONObject("geometry")
+                            var location=Geometry["location"] as JSONObject
 
-                            Log.d(TAG, "title($i): $placeName")
 
-
-
+                            Log.d(TAG, "title($i): $placNameName, ${location is JSONObject}")
+                            divideCat(d, location,placNameName)
 
                         }
 
@@ -246,39 +246,40 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-    fun divideCat(d:StoreData,place:Place?){
+    fun divideCat(d: StoreData, location: JSONObject, placName: String){
+        AllFood?.add(CompositeData(placName!!,location, d))
         when(d.storeType) {
             "양식", "기타양식" -> {
-                if (place != null)
-                    EFood?.add(CompositeData(place!!, d))
+                if (placName != null)
+                    EFood?.add(CompositeData(placName!!,location, d))
             }
             "중식" -> {
-                if (place != null)
-                    CFood?.add(CompositeData(place!!, d))
+                if (placName != null)
+                    CFood?.add(CompositeData(placName!!,location, d))
             }
             "한식_일반" -> {
-                if (place != null)
-                    KGFood?.add(CompositeData(place!!, d))
+                if (placName != null)
+                    KGFood?.add(CompositeData(placName!!,location, d))
             }
             "한식_육류" -> {
-                if (place != null)
-                    KMFood?.add(CompositeData(place!!, d))
+                if (placName != null)
+                    KMFood?.add(CompositeData(placName!!, location,d))
             }
             "한식_찌개류", "한식_면류" -> {
-                if (place != null)
-                    KNFood?.add(CompositeData(place!!, d))
+                if (placName != null)
+                    KNFood?.add(CompositeData(placName!!,location, d))
             }
             "일식" -> {
-                if (place != null)
-                    JFood?.add(CompositeData(place!!, d))
+                if (placName != null)
+                    JFood?.add(CompositeData(placName!!,location, d))
             }
             "한식_해산물" -> {
-                if (place != null)
-                    KSFood?.add(CompositeData(place!!, d))
+                if (placName != null)
+                    KSFood?.add(CompositeData(placName!!,location, d))
             }
             "한식_분식" -> {
-                if (place != null)
-                    KBFood?.add(CompositeData(place!!, d))
+                if (placName != null)
+                    KBFood?.add(CompositeData(placName!!,location, d))
             }
         }
     }
