@@ -361,13 +361,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
 
-
-                if (place != null){
-                    score.text = place.rating.toString()
-                    addr.text = place.address
-                }
-
-
                 // var arr = marker.tag.toString().split("/") //마커에 붙인 태그
 
                 //                Log.d("parkinfo", "parkname->"+marker.title+"___pakrwhat->")
