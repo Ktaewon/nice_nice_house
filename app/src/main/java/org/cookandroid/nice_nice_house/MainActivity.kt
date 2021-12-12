@@ -210,7 +210,7 @@ class MainActivity : AppCompatActivity() {
 
                         for (i in 0 until jArray.length()) {
                             val obj = jArray.getJSONObject(i)
-                            val placNameName = obj.getString("placName_id")
+                            val placNameName = obj.getString("place_id")
                             var Geometry=obj.getJSONObject("geometry")
                             var location=Geometry["location"] as JSONObject
 
