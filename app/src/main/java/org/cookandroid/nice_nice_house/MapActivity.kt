@@ -215,7 +215,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 count += 1
                 //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
                 //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                val latLng = LatLng(storedData[i].location["lat"].toDouble(), storedData[i].location["long"].toDouble())
+                val latLng = LatLng(storedData[i].location.getDouble("lat"), storedData[i].location.getDouble("long"))
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(latLng)
@@ -236,7 +236,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 count += 1
                 //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
                 //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                val latLng = LatLng(storedData[i].location["lat"].toDouble(), storedData[i].location["long"].toDouble())
+                val latLng = LatLng(storedData[i].location.getDouble("lat"), storedData[i].location.getDouble("long"))
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(latLng)
@@ -257,7 +257,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 count += 1
                 //val sdLocation = addrToPoint(this, storedData[i].data.Addr)
                 //val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-                val latLng = LatLng(storedData[i].location["lat"].toDouble(), storedData[i].location["long"].toDouble())
+                val latLng = LatLng(storedData[i].location.getDouble("lat"), storedData[i].location.getDouble("long"))
                 val markerOptions = MarkerOptions()
                 markerOptions
                     .position(latLng)
