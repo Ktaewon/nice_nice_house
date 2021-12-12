@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
@@ -45,6 +46,16 @@ import org.cookandroid.nice_nice_house.data.StoreData
 import java.io.IOException
 import kotlin.concurrent.thread
 import android.widget.TextView as TextView1
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+
+import android.graphics.drawable.BitmapDrawable
+
+
+
+
+
+
+
 
 
 
@@ -173,7 +184,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         // 카메라를 위치로 옮긴다.
         //gMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(35.871435, 128.601445)))
-
+        val bitmapdraw = resources.getDrawable(R.drawable.location_pin) as BitmapDrawable
+        val b = bitmapdraw.bitmap
+        val smallMarker = Bitmap.createScaledBitmap(b, 100, 100, false)
         thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
             var count = 0
             for (i in 1..storedData.size / 4 - 1) {
@@ -186,6 +199,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     .position(latLng)
                     .title(storedData[i].storeName)
                     .snippet(storedData[i].Addr.split("?").joinToString(" "))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
                 runOnUiThread {
                     map!!.addMarker(markerOptions)?.tag = storedData[i]
@@ -199,11 +213,17 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 count += 1
                 val sdLocation = addrToPoint(this, storedData[i].Addr)
                 val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
+
                 val markerOptions = MarkerOptions()
+
+
+
+
                 markerOptions
                     .position(latLng)
                     .title(storedData[i].storeName)
                     .snippet(storedData[i].Addr.split("?").joinToString(" "))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
                 runOnUiThread {
                     map!!.addMarker(markerOptions)?.tag = storedData[i]
@@ -222,6 +242,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     .position(latLng)
                     .title(storedData[i].storeName)
                     .snippet(storedData[i].Addr.split("?").joinToString(" "))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
                 runOnUiThread {
                     map!!.addMarker(markerOptions)?.tag = storedData[i]
@@ -240,6 +261,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     .position(latLng)
                     .title(storedData[i].storeName)
                     .snippet(storedData[i].Addr.split("?").joinToString(" "))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
 
                 runOnUiThread {
                     map!!.addMarker(markerOptions)?.tag = storedData[i]
