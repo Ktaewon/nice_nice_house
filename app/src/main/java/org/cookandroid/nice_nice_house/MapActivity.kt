@@ -339,13 +339,21 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 var tel = findViewById<android.widget.TextView>(R.id.tvStoreTel)
                 var menu = findViewById<android.widget.TextView>(R.id.tvMenu)
                 var price = findViewById<android.widget.TextView>(R.id.tvPrice)
-                val data = marker.tag as StoreData
+                var score = findViewById<android.widget.TextView>(R.id.tvScore)
+                val compositeData = marker.tag as CompositeData
+                var data = compositeData.data
+                var place = compositeData.place
                 title.text = data.storeName
                 type.text = data.storeType
                 addr.text = data.Addr.split("?").joinToString(" ")
                 tel.text = data.phoneNum
                 menu.text = data.menu1
                 price.text = data.price1 + "원"
+                if (place != null){
+                    score.text = place.rating.toString()
+                    addr.text = place.address
+                }
+
 
                 // var arr = marker.tag.toString().split("/") //마커에 붙인 태그
 
