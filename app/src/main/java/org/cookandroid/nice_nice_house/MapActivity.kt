@@ -49,6 +49,7 @@ import android.widget.TextView as TextView1
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
 import android.graphics.drawable.BitmapDrawable
+import android.webkit.WebSettings
 import android.widget.ImageView
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.net.*
@@ -124,7 +125,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
-                map!!.moveCamera(CameraUpdateFactory.newLatLng(place.latLng!!))
+                map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(place.latLng!!, 15F))
                 Log.i(TAG, "Place: ${place.name}, ${place.id}")
             }
 

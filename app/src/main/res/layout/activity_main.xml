@@ -38,7 +38,8 @@
                 android:layout_below="@id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="지도 열기"/>
+                android:text="지도 열기"
+            android:textStyle="bold"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="vertical"
@@ -66,6 +67,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="양식"
+                    android:textStyle="bold"
                         android:textAlignment="center"/>
             </LinearLayout>
             <LinearLayout
@@ -83,6 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="중식"
+                    android:textStyle="bold"
                         android:textAlignment="center"/>
             </LinearLayout>
             <LinearLayout
@@ -100,6 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="일식"
+                    android:textStyle="bold"
                         android:textAlignment="center"/>
             </LinearLayout>
 
@@ -126,6 +130,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="한식면,찌개류"
+                    android:textStyle="bold"
                         android:textAlignment="center"/>
             </LinearLayout>
             <LinearLayout
@@ -162,6 +167,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="한식해산물"
+                    android:textStyle="bold"
                         android:textAlignment="center"/>
             </LinearLayout>
 
@@ -184,6 +190,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="한식_육류"
+                    android:textStyle="bold"
                         android:textAlignment="center"/>
             </LinearLayout>
             <LinearLayout
@@ -202,6 +209,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="한식분식"
+                    android:textStyle="bold"
                         android:textAlignment="center"/>
             </LinearLayout>
             <LinearLayout
