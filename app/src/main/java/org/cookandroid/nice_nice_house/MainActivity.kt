@@ -28,6 +28,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -119,7 +120,10 @@ class MainActivity : AppCompatActivity() {
                     var result: ResponseData? = response.body()
                     Log.i("test", response.body().toString())
                     sampleData=result!!.data;
-                    parseData(sampleData!!,placeApi);
+                    thread(start = true) {
+                        parseData(sampleData!!,placeApi);
+                    }
+                    //parseData(sampleData!!,placeApi);
 
 
                 } else {
@@ -198,7 +202,7 @@ class MainActivity : AppCompatActivity() {
         for (d in data){
             var place:Place?=null
             Log.d("data",d.storeType.toString())
-            var result= placeApi.getPlaceID(d.Addr,"AIzaSyA-QQQIaULw-TI4BIXjY8PchV2l2IRFRas","ko")
+            var result= placeApi.getPlaceID(d.Addr+ "?" +d.storeName,"AIzaSyA-QQQIaULw-TI4BIXjY8PchV2l2IRFRas","ko")
             result.enqueue(object : Callback<JsonObject> {
                 override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                     if (response.isSuccessful) {
@@ -219,7 +223,8 @@ class MainActivity : AppCompatActivity() {
                             val placeId = placeName
 
 // Specify the fields to return.
-                            val placeFields = listOf(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG,Place.Field.PHOTO_METADATAS)
+                            val placeFields = listOf(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG,Place.Field.PHOTO_METADATAS,
+                                Place.Field.RATING, Place.Field.ADDRESS, Place.Field.PHONE_NUMBER, Place.Field.OPENING_HOURS)
 
 // Construct a request object, passing the place ID and fields array.
                             val request = FetchPlaceRequest.newInstance(placeId, placeFields)
@@ -228,9 +233,12 @@ class MainActivity : AppCompatActivity() {
                             var placesClient = Places.createClient(this@MainActivity)
                             placesClient.fetchPlace(request)
                                 .addOnSuccessListener { response: FetchPlaceResponse ->
-                                     place = response.place
+                                    place = response.place
+                                    Log.d("플레이스", place.toString())
+                                    divideCat(d, place)
                                 }.addOnFailureListener { exception: Exception ->
                                     if (exception is ApiException) {
+                                        Log.d("데이터", "안들어옴")
                                         Log.e(TAG, "Place not found: ${exception.message}")
                                         val statusCode = exception.statusCode
                                     }
@@ -255,42 +263,7 @@ class MainActivity : AppCompatActivity() {
 
 
             })
-            when(d.storeType)
-            {
-                "양식","기타양식" -> {
-                    if (place != null)
-                        EFood?.add(CompositeData(place!!, d))
-                }
-                "중식" -> {
-                    if (place != null)
-                        CFood?.add(CompositeData(place!!, d))
-                }
-                "한식_일반" -> {
-                    if (place != null)
-                        KGFood?.add(CompositeData(place!!, d))
-                }
-                "한식_육류" ->{
-                    if (place != null)
-                        KMFood?.add(CompositeData(place!!, d))
-                }
-                "한식_찌개류","한식_면류" -> {
-                    if (place != null)
-                        KNFood?.add(CompositeData(place!!, d))
-                }
-                "일식" -> {
-                    if (place != null)
-                        JFood?.add(CompositeData(place!!, d))
-                }
-                "한식_해산물" -> {
-                    if (place != null)
-                        KSFood?.add(CompositeData(place!!, d))
-                }
-                "한식_분식" -> {
-                    if (place != null)
-                        KBFood?.add(CompositeData(place!!, d))
-                }
 
-            }
 
 
         }
@@ -299,71 +272,42 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-//        thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
-//            var count = 0
-//            for (i in 1..(size - 1)){
-//                Log.d("프로젝트_스레드1 + $count", data[i].storeName + data[i].Addr)
-//                count += 1
-//                val sdLocation = mapApi.addrToPoint(this, data[i].Addr)
-//                val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-//                addrList1.add(latLng)
-//            }
-//        }
-//        thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
-//            var count = 0
-//            var datasize = size*2
-//            for (i in size..datasize - 1){
-//                Log.d("프로젝트_스레드2 + $count", data[i].storeName + data[i].Addr)
-//                count += 1
-//                val sdLocation = mapApi.addrToPoint(this, data[i].Addr)
-//                val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-//                addrList2.add(latLng)
-//            }
-//        }
-//        thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
-//            var count = 0
-//            var datasize = size*3
-//            for (i in size*2..datasize - 1){
-//                Log.d("프로젝트_스레드3 + $count", data[i].storeName + data[i].Addr)
-//                count += 1
-//                val sdLocation = mapApi.addrToPoint(this, data[i].Addr)
-//                val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-//                addrList3.add(latLng)
-//            }
-//        }
-//        thread(start = true) { //'kotlin.concurrent.thread' 를 import 해야함.
-//            var count = 0
-//            var datasize = size*4
-//            for (i in size*3..datasize - 1){
-//                Log.d("프로젝트_스레드4 + $count", data[i].storeName + data[i].Addr)
-//                count += 1
-//                val sdLocation = mapApi.addrToPoint(this, data[i].Addr)
-//                val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-//                addrList4.add(latLng)
-//            }
-//        }
-
-//        addrList.addAll(addrList1)
-//        addrList.addAll(addrList2)
-//        addrList.addAll(addrList3)
-//        addrList.addAll(addrList4)
-
-
-
-//        for (sd in data){
-//            Log.d("프로젝트 + $count", sd.storeName + sd.Addr)
-//            count += 1
-//            var context = this
-//            val sdLocation = mapApi.addrToPoint(context, sd.Addr)
-//            val latLng = LatLng(sdLocation!!.latitude, sdLocation!!.longitude)
-//            addrList.add(latLng)
-//
-//        }
-
-
     }
-
-
+    fun divideCat(d:StoreData,place:Place?){
+        when(d.storeType) {
+            "양식", "기타양식" -> {
+                if (place != null)
+                    EFood?.add(CompositeData(place!!, d))
+            }
+            "중식" -> {
+                if (place != null)
+                    CFood?.add(CompositeData(place!!, d))
+            }
+            "한식_일반" -> {
+                if (place != null)
+                    KGFood?.add(CompositeData(place!!, d))
+            }
+            "한식_육류" -> {
+                if (place != null)
+                    KMFood?.add(CompositeData(place!!, d))
+            }
+            "한식_찌개류", "한식_면류" -> {
+                if (place != null)
+                    KNFood?.add(CompositeData(place!!, d))
+            }
+            "일식" -> {
+                if (place != null)
+                    JFood?.add(CompositeData(place!!, d))
+            }
+            "한식_해산물" -> {
+                if (place != null)
+                    KSFood?.add(CompositeData(place!!, d))
+            }
+            "한식_분식" -> {
+                if (place != null)
+                    KBFood?.add(CompositeData(place!!, d))
+            }
+        }
+    }
 
 }
