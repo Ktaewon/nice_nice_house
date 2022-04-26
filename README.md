@@ -6,8 +6,6 @@
 
 ## 서비스 기획 배경 및 소개
 
----
-
 Are there any areas in the student's identity where public data can be used to improve the quality of life?
 
 Is there any way to revive the economy that has been stagnated in the long term due to the corona virus?
@@ -22,8 +20,6 @@ Just because the price is good doesn't mean you can trust everyone. It analyzes 
 You can expect to revitalize the local economy by introducing good businesses to the economy that is stagnating due to the covid19-virus.
 
 ## ✍️ 서비스 세부내용
-
----
 
 ### 🔗 서비스 시연 영상
 
@@ -40,19 +36,17 @@ You can expect to revitalize the local economy by introducing good businesses to
     2. When a marker is clicked, related details are displayed
     3. Provide wayfinding function
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4f1bb37a-bbb0-47bd-982f-77d161b6b93b/Untitled.png)
+![image](https://user-images.githubusercontent.com/33050476/165393361-2e078bfc-e533-40ab-a4ac-e906b2318510.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b877de34-b930-46d9-a1af-1cfe0d809eac/Untitled.png)
+![image](https://user-images.githubusercontent.com/33050476/165393390-2b539eaf-b3f3-4002-b4df-2a83c6653942.png)
+
+### 서비스 실행 사진
+![image](https://user-images.githubusercontent.com/33050476/165393324-b207c3fc-4663-455f-8ac3-bf9be9a0429e.png)
+
 
 ## 🛠 사용 기술 및 라이브러리
 
-- Java, Android
-- PHP
-- MySQL
-
-## 🖥 담당한 기능 (Android, BE)
-
-- 사용자가 설정한 알람에 시간이 가까워졌 때 사용자가 얕은 수면 상태라면 알람 울리기
-- 스마트폰 마이크를 이용하여 소리를 기반으로 수면 패턴을 분석, 데이터 ETL
-- 사용자 정보 통계 수치 계산 및 시각화
-- AWS ec2 서버를 생성하여 PHP와 MySQL을 이용한 Back-End 개발
+- Kotlin
+- Android
+- Retrofit
+- OpenAPIs
